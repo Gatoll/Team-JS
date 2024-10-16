@@ -10,8 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.7.7",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "express": "^4.21.1",
-    "mongoose": "^8.7.1"
-  }
+    "mongoose": "^8.7.1",
+    "openai": "^4.67.3"
+  },
+  "proxy": "https://api.openai.iniad.org/api/v1"
 }
