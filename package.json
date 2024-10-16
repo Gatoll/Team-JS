@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "react-scripts": "^5.0.1"
+  },
+  "proxy": "https://api.openai.iniad.org/api/v1"
+}
