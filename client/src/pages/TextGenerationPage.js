@@ -32,7 +32,7 @@ function TextGenerationPage() {
   };
   return (
     <div className="text-generation-container">
-      <h1>テキスト生成ページ</h1>
+      <h1>Text Generation Page</h1>
       <div className="input-group">
         <label htmlFor="character">名前（なまえ）</label>
         <input
@@ -40,7 +40,7 @@ function TextGenerationPage() {
           type="text"
           value={character}
           onChange={(e) => setCharacter(e.target.value)}
-          placeholder="キャラクターの名前を入力"
+          placeholder="Enter character name"
         />
       </div>
       <div className="input-group">
@@ -50,7 +50,7 @@ function TextGenerationPage() {
           type="text"
           value={age}
           onChange={(e) => setAge(e.target.value)}
-          placeholder="年齢を入力"
+          placeholder="Enter age"
         />
       </div>
       <div className="input-group">
@@ -60,7 +60,7 @@ function TextGenerationPage() {
           type="text"
           value={keywords}
           onChange={(e) => setKeywords(e.target.value)}
-          placeholder="キーワードを入力"
+          placeholder="Enter keywords"
         />
       </div>
       <div className="input-group">
@@ -84,7 +84,7 @@ function TextGenerationPage() {
 
       {generatedText && (
         <div className="generated-text">
-          <h2>生成された文章</h2>
+          <h2>文章</h2>
           <p>{generatedText}</p>
         </div>
       )}
