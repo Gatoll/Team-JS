@@ -16,6 +16,5 @@
     "express": "^4.21.1",
     "mongoose": "^8.7.1",
     "openai": "^4.67.3"
-  },
-  "proxy": "https://api.openai.iniad.org/api/v1"
+  }
 }
