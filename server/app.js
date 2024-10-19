@@ -2,15 +2,23 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-const app = express();
-app.use(cors());
 app.use(express.json());
 
 // MongoDBに接続
-mongoose.connect('mongodb://localhost:27017/myapp', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+const connectDB = async () => {
+  try {
+    await mongoose.connect('mongodb://localhost:27017/myapp', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+    console.log('MongoDB connected');
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+    process.exit(1);
+  }
+};
+connectDB();
+
 
 // モデルの定義
 const Book = mongoose.model('Book', {
@@ -19,24 +27,31 @@ const Book = mongoose.model('Book', {
   quiz: Array
 });
 
-// APIエンドポイント（本のデータを取得）
-app.get('/api/book/:id', (req, res) => {
-  Book.findById(req.params.id, (err, book) => {
-    if (err) return res.status(500).send(err);
+// 本のデータを取得するAPIエンドポイント
+app.get('/api/book/:id', async (req, res) => {
+  try {
+    const book = await Book.findById(req.params.id);
+    if (!book) {
+      return res.status(404).json({ message: 'Book not found' });
+    }
     res.json(book);
-  });
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
 });
 
-// APIエンドポイント（本のデータを保存）
-app.post('/api/book', (req, res) => {
-  const newBook = new Book(req.body);
-  newBook.save((err, savedBook) => {
-    if (err) return res.status(500).send(err);
-    res.json(savedBook);
-  });
+// 本のデータを保存するAPIエンドポイント
+app.post('/api/book', async (req, res) => {
+  try {
+    const newBook = new Book(req.body);
+    const savedBook = await newBook.save();
+    res.status(201).json(savedBook);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to save book' });
+  }
 });
 
-// サーバーの起動
-app.listen(3001, () => {
-  console.log('Backend server running on port 3001');
+const PORT = process.env.PORT || 3002;
+app.listen(PORT, () => {
+  console.log(`Backend server for MongoDB running on port ${PORT}`);
 });

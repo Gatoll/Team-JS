@@ -7,43 +7,36 @@ function TextGenerationPage() {
   const [age, setAge] = useState('');
   const [keywords, setKeywords] = useState('');
   const [generatedText, setGeneratedText] = useState('');
-  const [loading, setLoading] = useState(false); // ローディングの状態を管理
+  const [loading, setLoading] = useState(false);
   const [maxTokens, setMaxTokens] = useState(150);
+  const [error, setError] = useState('');
 
   const handleGenerateText = async () => {
-    setLoading(true);  // ローディング開始
-    console.log('API Key:', process.env.REACT_APP_OPENAI_API_KEY);
-
+    setLoading(true);
+    setError('');
+    setGeneratedText('');
     try {
-      // OpenAI APIにリクエストを送信
-      const response = await axios.post(
-        'https://api.openai.iniad.org/api/v1',
-        {
-          model: 'gpt-4o-mini',  // GPTモデルを指定
-          prompt: `Generate a story about a character named ${character}, who is ${age} years old, and has the following keywords: ${keywords}.`,
-          max_tokens: maxTokens,  // 生成する文章の長さ
-        },
-        {
-          headers: {
-            'Authorization': `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,  // 環境変数からAPIキーを取得
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-      setGeneratedText(response.data.choices[0].text);  // 生成された文章を保存
+      const response = await axios.post('http://localhost:3001/api/generate-text', {
+        character,
+        age,
+        keywords,
+      });
+    
+      setGeneratedText(response.data.generatedText);
     } catch (error) {
-        console.error('Error generating text:', error.response ? error.response.data : error.message);
+      setError('エラーが発生しました: ' + (error.response?.data?.message || error.message));
+      console.error('Error generating text:', error);
     }
 
-    setLoading(false);  // ローディング終了
+    setLoading(false);
   };
-
   return (
     <div className="text-generation-container">
       <h1>Text Generation Page</h1>
       <div className="input-group">
-        <label>名前（なまえ）</label>
+        <label htmlFor="character">名前（なまえ）</label>
         <input
+          id="character"
           type="text"
           value={character}
           onChange={(e) => setCharacter(e.target.value)}
@@ -51,8 +44,9 @@ function TextGenerationPage() {
         />
       </div>
       <div className="input-group">
-        <label>年齢（ねんれい）</label>
+        <label htmlFor="age">年齢（ねんれい）</label>
         <input
+          id="age"
           type="text"
           value={age}
           onChange={(e) => setAge(e.target.value)}
@@ -60,8 +54,9 @@ function TextGenerationPage() {
         />
       </div>
       <div className="input-group">
-        <label>キーワード</label>
+        <label htmlFor="keywords">キーワード</label>
         <input
+          id="keywords"
           type="text"
           value={keywords}
           onChange={(e) => setKeywords(e.target.value)}
@@ -69,8 +64,8 @@ function TextGenerationPage() {
         />
       </div>
       <div className="input-group">
-        <label>文章の長さ（ぶんしょうのながさ）</label>
-        <select value={maxTokens} onChange={(e) => setMaxTokens(Number(e.target.value))}>
+        <label htmlFor="maxTokens">文章の長さ（ぶんしょうのながさ）</label>
+        <select id="maxTokens" value={maxTokens} onChange={(e) => setMaxTokens(Number(e.target.value))}>
           <option value={100}>100</option>
           <option value={200}>200</option>
           <option value={300}>300</option>
@@ -80,6 +75,12 @@ function TextGenerationPage() {
       <button onClick={handleGenerateText} disabled={loading}>
         {loading ? '生成中...' : '文章を作る'}
       </button>
+
+      {error && (
+        <div className="error-message">
+          <p>{error}</p>
+        </div>
+      )}
 
       {generatedText && (
         <div className="generated-text">
