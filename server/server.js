@@ -5,6 +5,7 @@ require('dotenv').config();
 
 const app = express();
 
+app.use(cors({ origin: 'http://localhost:3000' }));
 app.use(express.json());
 
 const openai = new OpenAI({
@@ -34,7 +35,7 @@ app.post('/api/generate-text', async (req, res) => {
           content: `${character}という${age}歳のキャラクターについて、以下のキーワードを含む物語を生成してください：${keywords}`
         }
       ],
-      max_tokens: maxTokens || 100,
+      max_tokens: maxTokens || null,
       temperature: 0.7
     });
 
