@@ -1,4 +1,5 @@
-/* ホームページのレイアウトとスタイル */
+/* client/src/pages/HomePage.css */
+
 .home-container {
     display: flex;
     flex-direction: column;

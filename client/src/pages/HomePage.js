@@ -1,3 +1,5 @@
+// client/src/pages/HomePage.js
+
 import React from 'react';
 import './HomePage.css';
 import { useNavigate } from 'react-router-dom';
@@ -5,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 function HomePage() {
     const navigate = useNavigate();
     const handleCreateText = () => {
-    // 「文章を生成する」ボタンがクリックされたときに /generate-text へ遷移
     navigate('/generate-text');
   };
 

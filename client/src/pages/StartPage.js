@@ -1,11 +1,12 @@
+// client/src/pages/StartPage.js
+
 import React from 'react';
 import './StartPage.css';
 import { useNavigate } from 'react-router-dom';
 
 function StartPage() {
-  const navigate = useNavigate();  // ページ遷移に使用
+  const navigate = useNavigate();
   const handleStart = () => {
-    // 「Start」ボタンがクリックされたときに /home へ遷移
     navigate('/home');
   };
 

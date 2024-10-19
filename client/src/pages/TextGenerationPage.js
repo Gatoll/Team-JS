@@ -1,3 +1,5 @@
+// client/src/pages/TextGenerationPage.js
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import './TextGenerationPage.css';

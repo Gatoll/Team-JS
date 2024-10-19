@@ -1,3 +1,5 @@
+// server/server.js
+
 const express = require('express');
 const cors = require('cors');
 const OpenAI = require('openai');
@@ -32,7 +34,7 @@ app.post('/api/generate-text', async (req, res) => {
         { role: 'system', content: 'あなたは物語を生成する助手です。' },
         {
           role: 'user',
-          content: `${character}という${age}歳のキャラクターについて、以下のキーワードを含む物語を生成してください：${keywords}`
+          content: `${character}という${age}歳のキャラクターについて、以下のキーワードを含む物語を面白く生成してください：${keywords}`
         }
       ],
       max_tokens: maxTokens || null,
