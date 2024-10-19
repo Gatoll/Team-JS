@@ -86,7 +86,6 @@ function TextGenerationPage() {
 
       {generatedText && (
         <div className="generated-text">
-          <h2>文章</h2>
           <p>{generatedText}</p>
         </div>
       )}
