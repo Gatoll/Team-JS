@@ -11,6 +11,8 @@ export default function TextGenerationPage() {
   const [loading, setLoading] = useState(false);
   const [maxTokens, setMaxTokens] = useState(150);
   const [error, setError] = useState('');
+  const [answers, setAnswers] = useState({});
+  const [results, setResults] = useState(null);
   const navigate = useNavigate();
 
   const handleGenerateText = async () => {
@@ -18,6 +20,8 @@ export default function TextGenerationPage() {
     setError('');
     setGeneratedText('');
     setQuiz(null);
+    setAnswers({});
+    setResults(null);
     try {
       const response = await axios.post('http://localhost:3001/api/generate', {
         character,
@@ -35,6 +39,32 @@ export default function TextGenerationPage() {
     setLoading(false);
   };
 
+  // 選択肢が選ばれた際に呼ばれる関数
+  const handleAnswerSelect = (questionIndex, answer) => {
+    setAnswers(prevAnswers => ({
+      ...prevAnswers,
+      [questionIndex]: answer
+    }));
+  };
+
+  const handleCheckAnswers = () => {
+    const newResults = {};
+    quiz.questions.forEach((question, index) => {
+      // ユーザーの回答と正解をトリミングし、小文字に変換して比較
+      const userAnswer = answers[index]?.trim().toLowerCase();
+      const correctAnswer = question.correct_answer.trim().toLowerCase();
+      
+      console.log(`Question: ${question.word}, User answer: ${userAnswer}, Correct answer: ${correctAnswer}`);
+      
+      if (userAnswer === correctAnswer) {
+        newResults[index] = '正解です！';
+      } else {
+        newResults[index] = `不正解です。正解は ${question.correct_answer} です。`;
+      }
+    });
+    setResults(newResults);
+  };
+  
   const handleFinish = () => {
     window.print();
     navigate('/survey');
@@ -105,14 +135,45 @@ export default function TextGenerationPage() {
               {quiz.questions.map((question, index) => (
                 <div key={index}>
                   <h3>{index + 1}. {question.word}</h3>
-                  <ul>
-                    <li>a) {question.options.a}</li>
-                    <li>b) {question.options.b}</li>
-                    <li>c) {question.options.c}</li>
+                  <ul style={{ listStyleType: 'none', paddingLeft: 0 }}>
+                    <li>
+                      <label>
+                        <input
+                          type="radio"
+                          name={`question-${index}`}
+                          value="a"
+                          onChange={() => handleAnswerSelect(index, question.options.a)}
+                        />
+                        {question.options.a}
+                      </label>
+                    </li>
+                    <li>
+                      <label>
+                        <input
+                          type="radio"
+                          name={`question-${index}`}
+                          value="b"
+                          onChange={() => handleAnswerSelect(index, question.options.b)}
+                        />
+                        {question.options.b}
+                      </label>
+                    </li>
+                    <li>
+                      <label>
+                        <input
+                          type="radio"
+                          name={`question-${index}`}
+                          value="c"
+                          onChange={() => handleAnswerSelect(index, question.options.c)}
+                        />
+                        {question.options.c}
+                      </label>
+                    </li>
                   </ul>
-                  <p><strong>正解: {question.correct_answer}</strong></p>
+                  {results && results[index] && <p><strong>{results[index]}</strong></p>}
                 </div>
               ))}
+              <button onClick={handleCheckAnswers}>結果を確認</button>
             </div>
           )}
 
