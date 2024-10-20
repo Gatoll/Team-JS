@@ -1,3 +1,5 @@
+// client/src/App.js
+
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import StartPage from './pages/Start';
@@ -5,6 +7,7 @@ import HomePage from './pages/Home';
 import TextGenerationPage from './pages/Generation';
 import SurveyPage from './pages/Survey';
 import ThankYouPage from './pages/Thank';
+//import Footer from './Footer';
 import './App.css';
 
 function App() {
@@ -19,18 +22,14 @@ function App() {
             <Route path="/survey" element={<SurveyPage />} />
             <Route path="/thank" element={<ThankYouPage />} />
           </Routes>
-        </div>
+          {/* <div>
         <Footer />
+          </div>       */}
+        </div>     
       </div>
-    </Router>
-  );
-}
 
-function Footer() {
-  return (
-    <footer className="home-footer">
-      <p>&copy; 2024 projectX</p>
-    </footer>
+    </Router>
+
   );
 }
 

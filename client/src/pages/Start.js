@@ -11,12 +11,17 @@ function StartPage() {
   };
 
   return (
-    <div className="start-container">
-      <h1>Welcome to the Learning App</h1>
-      <button className="start-button" onClick={handleStart}>
-        Start
-      </button>
-    </div>
+    <>
+      <div className="start-container">
+        <h1>Welcome to the Learning App</h1>
+        <button className="start-button" onClick={handleStart}>
+          Start
+        </button>
+      </div>
+      <div className="home-footer">
+        <p>&copy; 2024 projectX</p>
+      </div>
+    </>
   );
 }
 

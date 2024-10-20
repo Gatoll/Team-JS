@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './Generation.css';
 import { useNavigate } from 'react-router-dom';
 
-function TextGenerationPage() {
+export default function TextGenerationPage() {
   const [character, setCharacter] = useState('');
   const [age, setAge] = useState('');
   const [keywords, setKeywords] = useState('');
   const [generatedText, setGeneratedText] = useState('');
+  const [quiz, setQuiz] = useState(null);
   const [loading, setLoading] = useState(false);
   const [maxTokens, setMaxTokens] = useState(150);
   const [error, setError] = useState('');
@@ -17,14 +17,17 @@ function TextGenerationPage() {
     setLoading(true);
     setError('');
     setGeneratedText('');
+    setQuiz(null);
     try {
       const response = await axios.post('http://localhost:3001/api/generate', {
         character,
         age,
         keywords,
+        maxTokens,
       });
     
       setGeneratedText(response.data.generatedText);
+      setQuiz(response.data.quiz);
     } catch (error) {
       setError('エラーが発生しました: ' + (error.response?.data?.message || error.message));
       console.error('Error generating text:', error);
@@ -92,17 +95,32 @@ function TextGenerationPage() {
       {generatedText && (
         <>
           <div className="generated-text">
+            <h2>生成された文章</h2>
             <p>{generatedText}</p>
           </div>
+
+          {quiz && (
+            <div className="generated-quiz">
+              <h2>クイズ</h2>
+              {quiz.questions.map((question, index) => (
+                <div key={index}>
+                  <h3>{index + 1}. {question.word}</h3>
+                  <ul>
+                    <li>a) {question.options.a}</li>
+                    <li>b) {question.options.b}</li>
+                    <li>c) {question.options.c}</li>
+                  </ul>
+                  <p><strong>正解: {question.correct_answer}</strong></p>
+                </div>
+              ))}
+            </div>
+          )}
 
           <div className="button-container">
             <button onClick={handleFinish} className="finish-button">終わる</button>
           </div>
         </>
       )}
-
     </div>
   );
 }
-
-export default TextGenerationPage;
