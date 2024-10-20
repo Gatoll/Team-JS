@@ -1,4 +1,4 @@
-/* client/src/pages/TextGenerationPage.css */
+/* client/src/pages/Generation.css */
 
 .text-generation-container {
     display: flex;
@@ -26,7 +26,7 @@
   }
     
   button {
-    border-radius: 10px;
+    border-radius: 5px;
     background-color: #28a745;
     color: white;
     border: none;
@@ -49,5 +49,25 @@
     border: 2px solid #979797;
     border-radius: 10px;
     background-color: #ffffff;
+    position: relative;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    width: 65%;
+  }
+
+  .finish-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .finish-button:hover {
+    background-color: #45a049;
   }
   

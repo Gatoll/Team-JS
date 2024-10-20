@@ -1,20 +1,17 @@
-// client/src/pages/HomePage.js
+// client/src/pages/Home.js
 
 import React from 'react';
-import './HomePage.css';
+import './Home.css';
 import { useNavigate } from 'react-router-dom';
 
 function HomePage() {
     const navigate = useNavigate();
     const handleCreateText = () => {
-    navigate('/generate-text');
+    navigate('/generate');
   };
 
   return (
     <div className="home-container">
-      <header className="home-header">
-        <h1>Welcome to the Learning App</h1>
-      </header>
         <section className="text-list">
             <h2>本棚</h2>
             {/* ここに生成された文章のリストを表示 */}
@@ -24,13 +21,9 @@ function HomePage() {
                 <li>Sample Text 3</li>
             </ul>
         </section>
-      <button className="create-button" onClick={handleCreateText}>
-          文章を作る
-      </button>
-
-      <footer className="home-footer">
-        <p>&copy; 2024 projectX</p>
-      </footer>
+        <button className="create-button" onClick={handleCreateText}>
+            文章を作る
+        </button>
     </div>
   );
 }

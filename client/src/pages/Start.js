@@ -1,7 +1,7 @@
-// client/src/pages/StartPage.js
+// client/src/pages/Start.js
 
 import React from 'react';
-import './StartPage.css';
+import './Start.css';
 import { useNavigate } from 'react-router-dom';
 
 function StartPage() {

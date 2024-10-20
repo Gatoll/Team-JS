@@ -1,8 +1,7 @@
-// client/src/pages/TextGenerationPage.js
-
 import React, { useState } from 'react';
 import axios from 'axios';
-import './TextGenerationPage.css';
+import './Generation.css';
+import { useNavigate } from 'react-router-dom';
 
 function TextGenerationPage() {
   const [character, setCharacter] = useState('');
@@ -12,13 +11,14 @@ function TextGenerationPage() {
   const [loading, setLoading] = useState(false);
   const [maxTokens, setMaxTokens] = useState(150);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleGenerateText = async () => {
     setLoading(true);
     setError('');
     setGeneratedText('');
     try {
-      const response = await axios.post('http://localhost:3001/api/generate-text', {
+      const response = await axios.post('http://localhost:3001/api/generate', {
         character,
         age,
         keywords,
@@ -29,9 +29,14 @@ function TextGenerationPage() {
       setError('エラーが発生しました: ' + (error.response?.data?.message || error.message));
       console.error('Error generating text:', error);
     }
-
     setLoading(false);
   };
+
+  const handleFinish = () => {
+    window.print();
+    navigate('/survey');
+  };
+
   return (
     <div className="text-generation-container">
       <h1>Text Generation Page</h1>
@@ -85,10 +90,17 @@ function TextGenerationPage() {
       )}
 
       {generatedText && (
-        <div className="generated-text">
-          <p>{generatedText}</p>
-        </div>
+        <>
+          <div className="generated-text">
+            <p>{generatedText}</p>
+          </div>
+
+          <div className="button-container">
+            <button onClick={handleFinish} className="finish-button">終わる</button>
+          </div>
+        </>
       )}
+
     </div>
   );
 }

@@ -1,20 +1,36 @@
-// client/src/App.js
-
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import StartPage from './pages/StartPage';
-import HomePage from './pages/HomePage';
-import TextGenerationPage from './pages/TextGenerationPage';
+import StartPage from './pages/Start';
+import HomePage from './pages/Home';
+import TextGenerationPage from './pages/Generation';
+import SurveyPage from './pages/Survey';
+import ThankYouPage from './pages/Thank';
+import './App.css';
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<StartPage />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/generate-text" element={<TextGenerationPage />} />
-      </Routes>
+      <div className="app-container">
+        <div className="main-content">
+          <Routes>
+            <Route path="/" element={<StartPage />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/generate" element={<TextGenerationPage />} />
+            <Route path="/survey" element={<SurveyPage />} />
+            <Route path="/thank" element={<ThankYouPage />} />
+          </Routes>
+        </div>
+        <Footer />
+      </div>
     </Router>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="home-footer">
+      <p>&copy; 2024 projectX</p>
+    </footer>
   );
 }
 

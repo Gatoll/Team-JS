@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
   res.send('Welcome to the OpenAI Text Generation API');
 });
 
-app.post('/api/generate-text', async (req, res) => {
+app.post('/api/generate', async (req, res) => {
   const { character, age, keywords, maxTokens } = req.body;
 
   if (!character || !age || !keywords) {
