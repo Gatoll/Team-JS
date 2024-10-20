@@ -8,23 +8,36 @@
     text-align: center;
   }
   
+  .toggle-button {
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    background-color: #57b542ba;
+  }
+
   .input-group {
+    display: flex;
     margin: 10px 0;
   }
   
   .input-group label {
     font-weight: bold;
   }
-  
+
   input, select {
     padding: 10px;
     font-size: 16px;
     margin-top: 5px;
     margin-left: 8px;
-    min-width: 100px;
     border-radius: 10px;
   }
-    
+  
+  label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
   button {
     border-radius: 5px;
     background-color: #28a745;
@@ -39,25 +52,42 @@
   button:hover {
     background-color: #218838;
   }
+
+  input[type="radio"] {
+    cursor: pointer;
+  }
   
-  .generated-text {
+  .generated-container {
     text-align: left;
     margin-top: 30px;
     padding: 5px 20px;
-    max-width: 1000px;
+    max-width: 1300px;
     word-wrap: break-word;
     border: 2px solid #979797;
     border-radius: 10px;
     background-color: #ffffff;
     position: relative;
   }
+  
+  .generated-quiz {
+    padding-bottom: 20px;
+  }
+
+  .generated-quiz h4 {
+    margin-bottom: 5px;
+  }
+
+  .quiz-options {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
 
   .button-container {
     display: flex;
     justify-content: flex-end;
-    width: 65%;
+    width: 80%;
   }
-
+  
   .finish-button {
     padding: 10px 20px;
     background-color: #4CAF50;
