@@ -34,7 +34,7 @@ app.post('/api/generate', async (req, res) => {
         { role: 'system', content: 'あなたは物語を生成する助手です。' },
         {
           role: 'user',
-          content: `${character}という${age}歳のキャラクターについて、以下のキーワードを含む物語を面白く生成してください。タイトルはつけないでください。キーワード: ${keywords}`
+          content: `${character}という${age}歳のキャラクターについて、以下のキーワードを含む物語を小学生が読めるレベルの言葉で面白く生成してください。漢字は絶対に全部フリガナを書いてください（例:漢字（かんじ））。入力した${character}, ${keywords}にフリガナはいりません。タイトルはつけないでください。キーワード: ${keywords}`
         }
       ],
       max_tokens: null,
@@ -49,7 +49,7 @@ app.post('/api/generate', async (req, res) => {
         { role: 'system', content: 'あなたはクイズを生成する助手です。' },
         {
           role: 'user',
-          content: `次の物語から比較的難しい単語を3つ選び、正しい意味1つと間違った意味2つを選択肢("a)..."のように)を作成してください。正解の選択肢だけ "(正解)" と明記してください。また、キーワードは問題にしないでください。単語と選択肢のみを返してください。物語: ${generatedText}`
+          content: `次の物語から比較的難しい単語を3つ選び、正しい意味1つと間違った意味2つを選択肢("a)..."のように)を作成してください。選択肢はわかりやすいもの（そのままの意味は禁止）にしてください。選択肢も含め、絶対に漢字は全て後ろにフリガナを書いてください。正解の選択肢のみ "（正解）" と漢字で明記してください。また、キーワードは問題にしないでください。単語と選択肢のみを返してください。物語: ${generatedText}`
         }
       ],
       max_tokens: null,
@@ -89,13 +89,13 @@ function parseQuiz(quizText) {
       const word = wordLine.replace(/^\d+\.\s*/, '').replace('単語: ', '').replace(/[#*]+/g, '').replace(/\s+/g, '').trim();
 
       // 正解の選択肢をまず抽出してトリミング
-      const correctAnswerLine = optionLines.find(o => o.includes('(正解)'));
-      const correctAnswer = correctAnswerLine ? correctAnswerLine.replace(/^[abc]\)\s*|\(正解\)/g, '').trim() : 'No correct answer';
+      const correctAnswerLine = optionLines.find(o => o.includes('（正解）'));
+      const correctAnswer = correctAnswerLine ? correctAnswerLine.replace(/^[abc]\)\s*|\（正解\）/g, '').trim() : 'No correct answer';
 
       const options = {
-        a: optionLines[0]?.replace('(正解)', '').replace(/^a\)\s*/, '').replace(/^-\s[A-C]\)\s*/, '') || 'No option a',
-        b: optionLines[1]?.replace('(正解)', '').replace(/^b\)\s*/, '').replace(/^-\s[A-C]\)\s*/, '') || 'No option b',
-        c: optionLines[2]?.replace('(正解)', '').replace(/^c\)\s*/, '').replace(/^-\s[A-C]\)\s*/, '') || 'No option c',
+        a: optionLines[0]?.replace('（正解）', '').replace(/^a\)\s*/, '').replace(/^-\s[A-C]\)\s*/, '') || 'No option a',
+        b: optionLines[1]?.replace('（正解）', '').replace(/^b\)\s*/, '').replace(/^-\s[A-C]\)\s*/, '') || 'No option b',
+        c: optionLines[2]?.replace('（正解）', '').replace(/^c\)\s*/, '').replace(/^-\s[A-C]\)\s*/, '') || 'No option c',
       };
       return { word, options, correct_answer: correctAnswer };
     }).filter(q => q !== null)
